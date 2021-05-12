@@ -1,0 +1,22 @@
+[package]
+name = "test-tracing-opentelemetry"
+version = "0.1.0"
+authors = ["James O. D. Hunt <james.o.hunt@intel.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.40"
+
+slog = { version = "2.7.0", features = ["dynamic-keys", "max_level_trace", "release_max_level_info"] }
+slog-scope = "4.4.0"
+slog-stdlog = "4.1.0"
+
+vsock-exporter = { path = "vsock-exporter" }
+
+tracing = "0.1.26"
+tracing-opentelemetry = "0.12.0"
+opentelemetry = { version = "0.14.0", features=["serialize"] }
+tracing-subscriber = "0.2.18"
+#opentelemetry-jaeger = "0.5.0"
