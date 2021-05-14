@@ -11,7 +11,7 @@ use slog::{error, o, Logger};
 use std::io;
 use std::io::Write;
 use std::net::Shutdown;
-use std::sync::Mutex;
+use std::sync::{Arc, Mutex};
 use vsock::VsockStream;
 
 const ANY_CID: &'static str = "any";
@@ -20,11 +20,11 @@ const ANY_CID: &'static str = "any";
 const DEFAULT_CID: u32 = 2;
 const DEFAULT_PORT: u32 = 10240;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Exporter {
     port: u32,
     cid: u32,
-    conn: Mutex<VsockStream>,
+    conn: Arc<Mutex<VsockStream>>,
     logger: Logger,
 }
 
@@ -173,7 +173,7 @@ impl Builder {
         Exporter {
             port: port,
             cid: cid,
-            conn: Mutex::new(conn),
+            conn: Arc::new(Mutex::new(conn)),
             logger: logger.new(o!()),
         }
     }

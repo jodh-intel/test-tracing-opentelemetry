@@ -8,7 +8,8 @@ use anyhow::Result;
 use opentelemetry::{global, sdk::trace::Config, trace::TracerProvider};
 use slog::{o, Logger};
 use tracing_opentelemetry::OpenTelemetryLayer;
-//use tracing_subscriber::Registry;
+use tracing_subscriber::layer::SubscriberExt;
+use tracing_subscriber::Registry;
 
 const NAME: &str = "my tracer";
 
@@ -43,13 +44,13 @@ pub fn setup_tracing(logger: &Logger) -> Result<()> {
 
     //let opentelemetry = OpenTelemetryLayer::with_tracer(tracer);
     //let subscriber = Registry::default().with(opentelemetry);
+    let subscriber = Registry::default().with(layer);
 
     //------------------------------
 
     //let layer = OpenTelemetryLayer::with_tracer(provider);
     //let subscriber = Registry::default().with(layer);
 
-    //let trace_subscriber = tracer::get_subscriber(NAME);
     tracing::subscriber::set_global_default(trace_subscriber)?;
 
     Ok(())
