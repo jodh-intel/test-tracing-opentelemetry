@@ -57,6 +57,8 @@ impl ExportError for Error {
 #[async_trait]
 impl SpanExporter for Exporter {
     async fn export(&mut self, batch: Vec<SpanData>) -> ExportResult {
+        println!("INFO: vsock-exporter: export: batch: {:?}", batch);
+
         let cid_str: String;
         if self.cid == libc::VMADDR_CID_ANY {
             cid_str = ANY_CID.to_string();
