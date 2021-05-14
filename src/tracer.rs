@@ -16,6 +16,8 @@ const NAME: &str = "my tracer";
 pub fn setup_tracing(logger: &Logger) -> Result<()> {
     let logger = logger.new(o!("subsystem" => "vsock-tracer"));
 
+    // Create the custom exporter that will redirect trace spans
+    // back to the host via VSOCK.
     let exporter = vsock_exporter::Exporter::builder()
         .with_logger(&logger)
         .init();
@@ -35,22 +37,7 @@ pub fn setup_tracing(logger: &Logger) -> Result<()> {
 
     let layer = OpenTelemetryLayer::new(tracer);
 
-    //let tracer = global::tracer_provider().get_tracer(name);
-    //let layer = OpenTelemetryLayer::with_tracer(tracer);
-
-    //------------------------------
-
-    //let tracer = global::trace_provider().get_tracer("example");
-
-    //let opentelemetry = OpenTelemetryLayer::with_tracer(tracer);
-    //let subscriber = Registry::default().with(opentelemetry);
     let subscriber = Registry::default().with(layer);
-
-    //------------------------------
-
-    //let layer = OpenTelemetryLayer::with_tracer(provider);
-    //let subscriber = Registry::default().with(layer);
-    //tracing::subscriber::set_global_default(trace_subscriber)?;
 
     tracing::subscriber::set_global_default(subscriber)?;
 
