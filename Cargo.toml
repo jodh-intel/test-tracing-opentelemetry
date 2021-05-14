@@ -13,7 +13,6 @@ slog = { version = "2.7.0", features = ["dynamic-keys", "max_level_trace", "rele
 slog-scope = "4.4.0"
 slog-stdlog = "4.1.0"
 
-ascii-exporter = { path = "ascii-exporter" }
 vsock-exporter = { path = "vsock-exporter" }
 
 tracing = "0.1.26"
