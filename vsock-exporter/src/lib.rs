@@ -4,7 +4,6 @@
 //
 
 use async_trait::async_trait;
-use nix::sys::socket::{SockAddr, VsockAddr};
 use opentelemetry::sdk::export::trace::{ExportResult, SpanData, SpanExporter};
 use opentelemetry::sdk::export::ExportError;
 use slog::{error, o, Logger};
@@ -12,7 +11,7 @@ use std::io;
 use std::io::Write;
 use std::net::Shutdown;
 use std::sync::{Arc, Mutex};
-use vsock::VsockStream;
+use vsock::{SockAddr, VsockListener, VsockStream};
 
 const ANY_CID: &'static str = "any";
 
@@ -156,8 +155,7 @@ impl Builder {
     pub fn init(self) -> Exporter {
         let Builder { port, cid, logger } = self;
 
-        let vsock_addr = VsockAddr::new(self.cid, self.port);
-        let sock_addr = SockAddr::Vsock(vsock_addr);
+        let sock_addr = SockAddr::new_vsock(self.cid, self.port);
 
         let cid_str: String;
 
