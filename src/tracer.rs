@@ -50,8 +50,9 @@ pub fn setup_tracing(logger: &Logger) -> Result<()> {
 
     //let layer = OpenTelemetryLayer::with_tracer(provider);
     //let subscriber = Registry::default().with(layer);
+    //tracing::subscriber::set_global_default(trace_subscriber)?;
 
-    tracing::subscriber::set_global_default(trace_subscriber)?;
+    tracing::subscriber::set_global_default(subscriber)?;
 
     Ok(())
 }
