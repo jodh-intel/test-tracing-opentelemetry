@@ -4,8 +4,12 @@
 //
 
 use anyhow::Result;
-//use opentelemetry::{global, sdk::trace::Config, sdk::trace::TracerProvider};
-use opentelemetry::{global, sdk::trace::Config, trace::TracerProvider};
+use opentelemetry::{
+    global,
+    sdk::export::trace::SpanExporter,
+    sdk::trace::{Config, Tracer},
+    trace::TracerProvider,
+};
 use slog::{o, Logger};
 use tracing_opentelemetry::OpenTelemetryLayer;
 use tracing_subscriber::layer::SubscriberExt;
